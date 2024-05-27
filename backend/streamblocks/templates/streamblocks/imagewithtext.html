@@ -1,0 +1,9 @@
+<!--imagewithtext.html-->
+<ul class="image-with-text-block">
+    {% for block in block_content %}
+    <li>
+        <img class="img" src="{{ block.image.url }}" alt="тчо то пошло не так">
+        <p>{{ block.text|safe }}</p>
+    </li>
+    {% endfor %}
+</ul>

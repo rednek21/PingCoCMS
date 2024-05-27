@@ -1,0 +1,10 @@
+.gitignore
+.git
+.venv
+var
+.idea
+__pycache__/
+*.py[cod]
+**.pyc
+*.so
+db.sqlite3

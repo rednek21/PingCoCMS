@@ -1,0 +1,18 @@
+<!-- templates/pages/page.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="title" content="{{ page.meta_title }}">
+    <meta name="description" content="{{ page.meta_description }}">
+    <title>{{ page.title }}</title>
+</head>
+<body>
+    <h1>{{ page.title }}</h1>
+    <div>
+        <div class="content">
+            {{ page.stream.render }}
+        </div>
+    </div>
+</body>
+</html>

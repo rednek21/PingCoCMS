@@ -1,0 +1,16 @@
+[
+{
+  "model": "streamblocks.richtext",
+  "pk": 1,
+  "fields": {
+    "text": "some text"
+  }
+},
+{
+  "model": "streamblocks.richtext",
+  "pk": 2,
+  "fields": {
+    "text": "второй блок с текстом"
+  }
+}
+]

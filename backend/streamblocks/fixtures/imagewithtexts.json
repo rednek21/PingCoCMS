@@ -1,0 +1,18 @@
+[
+{
+  "model": "streamblocks.imagewithtext",
+  "pk": 1,
+  "fields": {
+    "image": "images/Screenshot_from_2024-05-25_12-16-57.png",
+    "text": "<b>some text</b> приколы нереальные"
+  }
+},
+{
+  "model": "streamblocks.imagewithtext",
+  "pk": 2,
+  "fields": {
+    "image": "images/Screenshot_from_2024-04-29_22-07-46.png",
+    "text": "прекол"
+  }
+}
+]

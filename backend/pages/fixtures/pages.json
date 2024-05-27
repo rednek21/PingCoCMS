@@ -1,0 +1,68 @@
+[
+{
+  "model": "pages.page",
+  "pk": 1,
+  "fields": {
+    "title": "прикол",
+    "stream": [
+      {
+        "unique_id": "aqzrgq",
+        "model_name": "RichText",
+        "id": 1,
+        "options": {},
+        "collapsed": false
+      },
+      {
+        "unique_id": "qisui",
+        "model_name": "ImageWithText",
+        "id": [
+          1
+        ],
+        "options": {},
+        "collapsed": false
+      },
+      {
+        "unique_id": "derq5k",
+        "model_name": "RichText",
+        "id": 2,
+        "options": {},
+        "collapsed": false
+      },
+      {
+        "unique_id": "za3b0k",
+        "model_name": "ImageWithText",
+        "id": [
+          2
+        ],
+        "options": {},
+        "collapsed": false
+      }
+    ],
+    "url": "prikol",
+    "meta_title": null,
+    "meta_description": null
+  }
+},
+{
+  "model": "pages.page",
+  "pk": 2,
+  "fields": {
+    "title": "вопросы",
+    "stream": [],
+    "url": "voprosy",
+    "meta_title": "мета тайтл",
+    "meta_description": "мета дескрипшн"
+  }
+},
+{
+  "model": "pages.page",
+  "pk": 3,
+  "fields": {
+    "title": "new",
+    "stream": [],
+    "url": "new",
+    "meta_title": null,
+    "meta_description": null
+  }
+}
+]
