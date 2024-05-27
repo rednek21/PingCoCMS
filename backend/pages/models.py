@@ -1,7 +1,8 @@
 from django.db import models
 
 from streamfield.fields import StreamField
-from streamblocks.models import RichText, ImageWithText
+
+from backend.streamblocks.models import RichText
 
 
 class Page(models.Model):

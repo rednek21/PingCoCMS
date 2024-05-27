@@ -3,7 +3,7 @@
 from django.contrib import admin
 from streamfield.admin import StreamBlocksAdmin
 
-from streamblocks.models import RichText
+from backend.streamblocks.models import RichText
 
 admin.site.unregister(RichText)
 
