@@ -1,6 +1,12 @@
 Django==4.2.3
+django-appconf==1.0.5
+django-environ==0.10.0
+django-seed==0.3.1
+django-streamfield==2.2.0
+Faker==25.3.0
 gunicorn==21.2.0
+httplib2==0.20.2
 Pillow==10.0.0
+protobuf==3.12.4
 psycopg2-binary==2.9.9
 python-dotenv==1.0.1
-django-streamfield==2.2.0
