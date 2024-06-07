@@ -1,16 +1,10 @@
-function App() {
-  return (
-    <>
-      <header>
-        <div className="logo">PingCoCMS</div>
-        <nav>
-          <div className="link">Prikol</div>
-          <div className="link">Rofliany</div>
-          <div className="link">Paprikolu</div>
-        </nav>
-      </header>
-    </>
-  );
-}
+import { BrowserRouter } from "react-router-dom";
+import { Router } from "./Router";
 
-export default App;
+export const App = () => {
+  return (
+    <BrowserRouter>
+      <Router />
+    </BrowserRouter>
+  );
+};
