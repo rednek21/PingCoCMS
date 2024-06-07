@@ -18,9 +18,8 @@ if [ "$DEBUG" = "False" ]
 then
     python manage.py collectstatic --noinput
 else
-    python manage.py loaddata imagewithtexts.json
-    python manage.py loaddata richtexts.json
-    python manage.py loaddata pages.json
+    python manage.py seed streamblocks --number=5
+    python manage.py seed pages --number=5
 fi
 
 if [ "$DJANGO_SUPERUSER_USERNAME" ]
