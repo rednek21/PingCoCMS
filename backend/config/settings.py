@@ -21,7 +21,9 @@ else:
 ALLOWED_HOSTS = ['*']
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000/",
+    "https://localhost",
+    "http://127.0.0.1",
+    "http://0.0.0.0",
 ]
 
 # Application definition
@@ -41,7 +43,7 @@ INSTALLED_APPS = [
     'streamfield',
     'django_seed',
 
-    'corsheaders'
+    'corsheaders',
     'rest_framework',
     'rest_framework_simplejwt',
     'djoser',
@@ -52,7 +54,6 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.common.CommonMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
