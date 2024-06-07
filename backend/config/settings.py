@@ -30,9 +30,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'pages',
-
     'streamblocks',
+
     'streamfield',
+    'django_seed',
 ]
 
 MIDDLEWARE = [
