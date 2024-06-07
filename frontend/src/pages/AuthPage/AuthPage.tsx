@@ -1,6 +1,21 @@
+import { useState } from "react";
 import { ShineButton } from "src/shared/ShineButton";
 
 export const AuthPage = () => {
+  const [login, setLogin] = useState("");
+  const [password, setPassword] = useState("");
+  const handleSubmit = () => {
+    const response = fetch("http://localhost/auth/jwt/create", {
+      method: "POST",
+      mode: "no-cors",
+      headers: {
+        "content-type": "application/json;charset=UTF-8",
+      },
+      body: JSON.stringify({ username: login, password: password }),
+    });
+    console.log(response);
+  };
+
   return (
     <>
       <div className="wrapper flex flex-col justify-center items-center h-screen bg-slate-300">
@@ -10,7 +25,10 @@ export const AuthPage = () => {
           className="logo mb-20 p-4 rounded-2xl scale-150"
         />
         <form
-          action=""
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSubmit();
+          }}
           className=" flex flex-col items-center justify-center  p-4 scale-150"
         >
           <input
@@ -19,6 +37,10 @@ export const AuthPage = () => {
             id="1"
             placeholder="admin"
             required
+            value={login}
+            onChange={(e) => {
+              setLogin(e.target.value);
+            }}
             className="m-4 p-2 border rounded-xl border-solid border-gray-200 focus:outline-none focus:border-sky-600 focus:ring-1 focus:ring-sky-500
       disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
       focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
@@ -29,6 +51,10 @@ export const AuthPage = () => {
             id="2"
             placeholder="*****"
             required
+            value={password}
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
             className="m-4 p-2 border rounded-xl border-solid border-gray-200  focus:outline-none focus:border-sky-600 focus:ring-1 focus:ring-sky-500
       disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
       focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
