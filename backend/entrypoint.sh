@@ -1,5 +1,9 @@
 #!/bin/sh
 
+echo $DB_PORT
+echo $DEBUG
+echo $DB_NAME
+
 if [ "$DATABASE" = "postgres" ]
 then
     echo "Waiting for postgres..."

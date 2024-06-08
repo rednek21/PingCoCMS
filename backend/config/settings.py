@@ -83,11 +83,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-if DEBUG:
+if DEBUG is True:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
@@ -98,14 +97,13 @@ else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': os.getenv('DEBUG'),
-            'USER': os.getenv('DEBUG'),
-            'PASSWORD': os.getenv('DEBUG'),
-            'HOST': os.getenv('DEBUG'),
-            'PORT': os.getenv('DEBUG'),
+            'NAME': os.getenv('DB_NAME'),
+            'USER': os.getenv('DB_USER'),
+            'PASSWORD': os.getenv('DB_PASSWORD'),
+            'HOST': os.getenv('DB_HOST'),
+            'PORT': os.getenv('DB_PORT'),
         }
     }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -125,7 +123,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
@@ -137,15 +134,14 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = '/static/'
-if DEBUG:
+if DEBUG is True:
     STATICFILES_DIRS = (
-            BASE_DIR / 'static',
-        )
+        BASE_DIR / 'static',
+    )
 else:
     STATIC_ROOT = "/var/www/static/"
 
@@ -157,10 +153,9 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
 # MAILINGS
 
-if DEBUG:
+if DEBUG is True:
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 else:
     EMAIL_HOST = os.getenv('EMAIL_HOST')
@@ -169,11 +164,9 @@ else:
     EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
     EMAIL_USE_SSL = os.getenv('EMAIL_USE_SSL')
 
-
 # User
 
 AUTH_USER_MODEL = "users.User"
-
 
 # DJANGO REST FRAMEWORK
 
@@ -203,7 +196,6 @@ REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
-
 # DJOSER
 
 DJOSER = {
@@ -227,7 +219,6 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=60),
 
 }
-
 
 # SPECTACULAR
 
