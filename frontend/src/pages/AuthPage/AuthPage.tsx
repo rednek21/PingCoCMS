@@ -4,16 +4,29 @@ import { ShineButton } from "src/shared/ShineButton";
 export const AuthPage = () => {
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const handleSubmit = () => {
-    const response = fetch("http://localhost/auth/jwt/create", {
+    fetch("http://localhost/auth/jwt/create", {
       method: "POST",
-      mode: "no-cors",
+      mode: "cors",
       headers: {
-        "content-type": "application/json;charset=UTF-8",
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({ username: login, password: password }),
-    });
-    console.log(response);
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.detail) {
+          setError(data.detail);
+        } else {
+          setError("");
+        }
+        if (data.access) {
+          document.cookie = `accessJWT=${data.access}`;
+          document.cookie = `refreshJWT=${data.refresh}`;
+          window.location.replace("http://localhost:3000/admin/");
+        }
+      });
   };
 
   return (
@@ -59,6 +72,8 @@ export const AuthPage = () => {
       disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
       focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
           />
+          <span className=" text-pink-600 mb-4">{error}</span>
+
           <ShineButton text="Login" />
         </form>
       </div>
