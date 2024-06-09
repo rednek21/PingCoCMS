@@ -1,32 +1,37 @@
 import { useState } from "react";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import { ShineButton } from "src/shared/ShineButton";
+import { useTokens } from "src/entities/Auth/useTokens";
+
+type adminContext = {
+  authorized: boolean;
+  setAuthorized: React.Dispatch<React.SetStateAction<boolean>>;
+};
 
 export const AuthPage = () => {
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const handleSubmit = () => {
-    fetch("http://localhost/auth/jwt/create", {
-      method: "POST",
-      mode: "cors",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ username: login, password: password }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.detail) {
-          setError(data.detail);
-        } else {
-          setError("");
-        }
-        if (data.access) {
-          document.cookie = `accessJWT=${data.access}`;
-          document.cookie = `refreshJWT=${data.refresh}`;
-          window.location.replace("http://localhost:3000/admin/");
-        }
-      });
+
+  const navigate = useNavigate();
+  const { createTokens } = useTokens();
+  const context = useOutletContext() as adminContext;
+
+  if (context.authorized) navigate("/admin/");
+
+  const handleSubmit = async () => {
+    let data = await createTokens(login, password);
+    if (data.detail) {
+      setError(data.detail);
+    } else {
+      setError("");
+    }
+    if (data.access) {
+      document.cookie = `accessJWT=${data.access}; path=/; max-age=31536000`;
+      document.cookie = `refreshJWT=${data.refresh}; path=/; max-age=31536000`;
+      context.setAuthorized(true);
+      navigate("/admin/");
+    }
   };
 
   return (

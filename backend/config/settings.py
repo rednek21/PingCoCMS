@@ -214,9 +214,9 @@ SIMPLE_JWT = {
 
     'BLACKLIST_AFTER_ROTATION': True,
 
-    'ACCESS_TOKEN_LIFETIME': timedelta(days=30),
+    'ACCESS_TOKEN_LIFETIME': timedelta(seconds=30),
 
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=60),
+    'REFRESH_TOKEN_LIFETIME': timedelta(seconds=60),
 
 }
 
