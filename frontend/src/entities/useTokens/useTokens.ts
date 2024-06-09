@@ -58,9 +58,16 @@ export const useTokens = () => {
     });
     return isVerifyed;
   }
+
+  function removeTokens() {
+    document.cookie = `accessJWT=; path=/; max-age=0`;
+    document.cookie = `refreshJWT=; path=/; max-age=0`;
+  }
+
   return {
     createTokens,
     refreshAccessToken,
     verifyToken,
+    removeTokens,
   };
 };
