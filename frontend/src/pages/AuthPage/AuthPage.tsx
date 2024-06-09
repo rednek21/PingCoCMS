@@ -1,12 +1,8 @@
 import { useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import { ShineButton } from "src/shared/ShineButton";
-import { useTokens } from "src/entities/Auth/useTokens";
-
-type adminContext = {
-  authorized: boolean;
-  setAuthorized: React.Dispatch<React.SetStateAction<boolean>>;
-};
+import { useTokens } from "src/entities/useTokens";
+import { adminContext } from "src/app/AuthorizationWrap";
 
 export const AuthPage = () => {
   const [login, setLogin] = useState("");
@@ -77,10 +73,12 @@ export const AuthPage = () => {
       disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
       focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
           />
-          <span className=" text-pink-600 mb-4">{error}</span>
 
-          <ShineButton text="Login" />
+          <ShineButton text="Login" handleClick={() => {}} />
         </form>
+        <span className=" text-pink-600 mt-8 text-xl text-center text-wrap p-4">
+          {error}
+        </span>
       </div>
     </>
   );
