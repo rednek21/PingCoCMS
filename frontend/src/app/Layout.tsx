@@ -1,14 +1,12 @@
-import { Outlet, useOutletContext } from "react-router-dom";
-import { adminContext } from "./AuthorizationWrap";
+import { Outlet } from "react-router-dom";
 // import { Header } from "src/widgets/Header";
 // import { Footer } from "src/widgets/Footer";
 
 export const Layout = () => {
-  const context = useOutletContext() as adminContext;
   return (
     <>
       {/* <Header /> */}
-      <Outlet context={context} />
+      <Outlet />
       {/* <Footer /> */}
     </>
   );

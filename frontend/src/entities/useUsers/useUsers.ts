@@ -1,4 +1,4 @@
-import { getCookie } from "src/entities/Utilities";
+import { getCookie } from "src/entities/useCookies";
 
 export interface User {
   id?: number;

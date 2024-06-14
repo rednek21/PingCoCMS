@@ -1,8 +1,7 @@
 import { useState } from "react";
-import { useNavigate, useOutletContext } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ShineButton } from "src/shared/ShineButton";
 import { useTokens } from "src/entities/useTokens";
-import { adminContext } from "src/app/AuthorizationWrap";
 
 export const AuthPage = () => {
   const [login, setLogin] = useState("");
@@ -11,9 +10,8 @@ export const AuthPage = () => {
 
   const navigate = useNavigate();
   const { createTokens } = useTokens();
-  const context = useOutletContext() as adminContext;
 
-  if (context.authorized) navigate("/admin/");
+  // if (context.authorized) navigate("/admin/");
 
   const handleSubmit = async () => {
     let data = await createTokens(login, password);
@@ -25,7 +23,7 @@ export const AuthPage = () => {
     if (data.access) {
       document.cookie = `accessJWT=${data.access}; path=/; max-age=31536000`;
       document.cookie = `refreshJWT=${data.refresh}; path=/; max-age=31536000`;
-      context.setAuthorized(true);
+      // context.setAuthorized(true);
       navigate("/admin/");
     }
   };

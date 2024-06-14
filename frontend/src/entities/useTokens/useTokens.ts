@@ -23,7 +23,7 @@ export const useTokens = () => {
   }
 
   async function refreshAccessToken(refreshToken: string) {
-    let result: tokensData = await fetch(
+    await fetch(
       `${location.protocol + "//" + location.hostname}/auth/jwt/refresh`,
       {
         method: "POST",
@@ -33,10 +33,14 @@ export const useTokens = () => {
         },
         body: JSON.stringify({ refresh: refreshToken }),
       }
-    ).then((response) => {
-      return response.json();
-    });
-    return result;
+    )
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        document.cookie = `accessJWT=${data.access}; path=/; max-age=31536000`;
+        document.cookie = `refreshJWT=${data.refresh}; path=/; max-age=31536000`;
+      });
   }
 
   async function verifyToken(token: string) {
