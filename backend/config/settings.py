@@ -1,22 +1,41 @@
 import os
-from datetime import timedelta
+import environ
 
-from dotenv import load_dotenv
+from datetime import timedelta
 
 from pathlib import Path
 
-load_dotenv()
+
+env = environ.Env(
+    DEBUG=(bool),
+    SECRET_KEY=(str),
+    JWT_KEY=(str),
+    DOMAIN_NAME=(str),
+    DB=(str),
+    DB_NAME=(str),
+    DB_USER=(str),
+    DB_PASSWORD=(str),
+    DB_HOST=(str),
+    DB_PORT=(int),
+    EMAIL_HOST=(str),
+    EMAIL_PORT=(int),
+    EMAIL_HOST_USER=(str),
+    EMAIL_HOST_PASSWORD=(str),
+    EMAIL_USE_SSL=(bool),
+)
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = os.getenv('SECRET_KEY')
+environ.Env.read_env()
 
-DEBUG = os.getenv('DEBUG')
+SECRET_KEY = env('SECRET_KEY')
+
+DEBUG = env('DEBUG')
 
 if DEBUG:
     DOMAIN_NAME = 'http://localhost'
 else:
-    DOMAIN_NAME = os.getenv('DOMAIN_NAME')
+    DOMAIN_NAME = env('DOMAIN_NAME')
 
 ALLOWED_HOSTS = ['*']
 
@@ -38,6 +57,7 @@ INSTALLED_APPS = [
 
     'users',
     'pages',
+    'mailings',
     'streamblocks',
 
     'streamfield',
@@ -49,7 +69,6 @@ INSTALLED_APPS = [
     'djoser',
     'django_filters',
     'drf_spectacular',
-    # 'rest_framework_simplejwt.token_blacklist',
 ]
 
 MIDDLEWARE = [
@@ -86,7 +105,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-if DEBUG is True:
+if DEBUG:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
@@ -97,11 +116,11 @@ else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': os.getenv('DB_NAME'),
-            'USER': os.getenv('DB_USER'),
-            'PASSWORD': os.getenv('DB_PASSWORD'),
-            'HOST': os.getenv('DB_HOST'),
-            'PORT': os.getenv('DB_PORT'),
+            'NAME': env('DB_NAME'),
+            'USER': env('DB_USER'),
+            'PASSWORD': env('DB_PASSWORD'),
+            'HOST': env('DB_HOST'),
+            'PORT': env('DB_PORT'),
         }
     }
 
@@ -138,7 +157,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = '/static/'
-if DEBUG is True:
+if DEBUG:
     STATICFILES_DIRS = (
         BASE_DIR / 'static',
     )
@@ -158,11 +177,14 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 if DEBUG is True:
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 else:
-    EMAIL_HOST = os.getenv('EMAIL_HOST')
-    EMAIL_PORT = os.getenv('EMAIL_PORT')
-    EMAIL_HOST_USER = os.getenv
-    EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
-    EMAIL_USE_SSL = os.getenv('EMAIL_USE_SSL')
+    EMAIL_HOST = env('EMAIL_HOST')
+    EMAIL_PORT = env('EMAIL_PORT')
+    EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+    EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+    EMAIL_USE_SSL = env('EMAIL_USE_SSL')
+
+    SERVER_EMAIL = EMAIL_HOST_USER
+    DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 # User
 
@@ -188,7 +210,7 @@ REST_FRAMEWORK = {
         'rest_framework.throttling.UserRateThrottle'
     ],
     'DEFAULT_THROTTLE_RATES': {
-        'anon': '100/day',
+        'anon': '10/day',
         'user': '1000/day'
     },
 
@@ -199,11 +221,16 @@ REST_FRAMEWORK = {
 # DJOSER
 
 DJOSER = {
-    'PASSWORD_RESET_CONFIRM_URL': '/password/reset/confirm/{uid}/{token}',
-    'USERNAME_RESET_CONFIRM_URL': '/username/reset/confirm/{uid}/{token}',
-    'ACTIVATION_URL': '/activate/{uid}/{token}',
+    'PASSWORD_RESET_CONFIRM_URL': 'password/reset/confirm/{uid}/{token}',
+    'USERNAME_RESET_CONFIRM_URL': 'username/reset/confirm/{uid}/{token}',
+    'ACTIVATION_URL': '/activate/{user}/{uid}/{token}',
     'SEND_ACTIVATION_EMAIL': True,
-    'SERIALIZERS': {},
+    'SERIALIZERS': {
+        'users': 'users.serializers.UserSerializer',
+    },
+    'EMAIL': {
+        'activation': 'mailings.views.UserActivationEmail'
+    }
 }
 
 # JWT
@@ -217,6 +244,8 @@ SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=5),
 
     'REFRESH_TOKEN_LIFETIME': timedelta(days=60),
+
+    "SIGNING_KEY": env('JWT_KEY'),
 
 }
 

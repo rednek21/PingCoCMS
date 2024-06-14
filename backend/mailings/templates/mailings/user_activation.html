@@ -1,0 +1,16 @@
+{% block subject %}
+Account activation on {{ site_name }}
+{% endblock subject %}
+
+{% block text_body %}
+Вы получили это сообщения, чтобы завершить процесс регистрации.
+
+Для активации Вашего аккаунта, пожалуйста, перейдите по ссылке:
+
+http://{{ site_name }}{{ url }}
+
+Спасибо, что используете наш сайт!
+
+Команда сайта {{ site_name }}
+
+{% endblock text_body %}

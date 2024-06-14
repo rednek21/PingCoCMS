@@ -1,9 +1,5 @@
 #!/bin/sh
 
-echo $DB_PORT
-echo $DEBUG
-echo $DB_NAME
-
 if [ "$DATABASE" = "postgres" ]
 then
     echo "Waiting for postgres..."
@@ -21,9 +17,11 @@ python manage.py migrate
 if [ "$DEBUG" = "False" ]
 then
     python manage.py collectstatic --noinput
-else
-    python manage.py seed streamblocks --number=5
     python manage.py seed pages --number=5
+    python manage.py seed users --number=5
+else
+    python manage.py seed pages --number=5
+    python manage.py seed users --number=5
 fi
 
 if [ "$DJANGO_SUPERUSER_USERNAME" ]
