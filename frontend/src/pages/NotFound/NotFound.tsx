@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ShineButton } from "src/shared/ShineButton";
+import { ShineButton } from "src/shared/ui/ShineButton";
 
 export const NotFound = () => {
   return (

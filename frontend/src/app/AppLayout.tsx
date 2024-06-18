@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import { useAuth } from "src/entities/useAuth";
+import { auth } from "src/features/auth";
 
 interface AuthorizationGuardProps {
   children: React.ReactNode;
@@ -13,17 +13,27 @@ const AuthorizationGuard: React.FC<AuthorizationGuardProps> = ({
   const [isCheckingAuth, setIsCheckingAuth] = useState<boolean>(true);
 
   let navigate = useNavigate();
-  const { checkAuth } = useAuth();
 
   useEffect(() => {
     const checkAuthorization = async () => {
-      const isAuth = await checkAuth();
-      setIsAuthorized(isAuth);
-      setIsCheckingAuth(false);
+      try {
+        const isAuth = await auth.checkAuth();
+        setIsAuthorized(isAuth);
+      } catch (error) {
+        console.error("Authorization check failed", error);
+      } finally {
+        setIsCheckingAuth(false);
+      }
     };
 
     checkAuthorization();
   }, []);
+
+  useEffect(() => {
+    if (!isCheckingAuth && !isAuthorized) {
+      navigate("/auth");
+    }
+  }, [isCheckingAuth, isAuthorized, navigate]);
 
   if (isCheckingAuth) {
     // Показываем лоадер или ничего не показываем, пока проверка не завершена

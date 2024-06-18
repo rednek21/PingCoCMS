@@ -1,23 +1,21 @@
-import { useNavigate } from "react-router-dom";
-import { ShineButton } from "src/shared/ShineButton";
-import { useTokens } from "src/entities/useTokens";
-import { useUsers, User } from "src/entities/useUsers";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { auth } from "src/features/auth";
+import { User, useUsers } from "src/features/users";
+import { ShineButton } from "src/shared/ui/ShineButton";
 
 export const Admin = () => {
-  const [users, setUsers] = useState([] as User[]);
+  const [users, setUsers] = useState<User[] | null>(null);
 
-  const { getUsers } = useUsers();
-  const { removeTokens } = useTokens();
   const navigate = useNavigate();
+
   function handleLogout() {
-    removeTokens();
+    auth.logout();
     navigate("/auth/");
   }
 
   async function handleUsers() {
-    let users = await getUsers();
-    setUsers(users);
+    setUsers((await useUsers()).users);
   }
 
   return (
@@ -25,18 +23,22 @@ export const Admin = () => {
       <p className=" m-4">You are authorized</p>
       <ShineButton text={"Logout"} handleClick={() => handleLogout()} />
       <ShineButton text={"Users"} handleClick={() => handleUsers()} />
-      {users?.map((user) => {
-        return (
-          <div key={user.id} className=" m-4">
-            <p>ID: {user.id}</p>
-            <p>First Name: {user.first_name}</p>
-            <p>Last Name: {user.last_name}</p>
-            <p>Username: {user.username}</p>
-            <p>email: {user.email}</p>
-            <p>Active: {"" + user.is_active}</p>
-          </div>
-        );
-      })}
+      {users ? (
+        users.map((user) => {
+          return (
+            <div key={user.id} className=" m-4">
+              <p>ID: {user.id}</p>
+              <p>First Name: {user.first_name}</p>
+              <p>Last Name: {user.last_name}</p>
+              <p>Username: {user.username}</p>
+              <p>email: {user.email}</p>
+              <p>Active: {"" + user.is_active}</p>
+            </div>
+          );
+        })
+      ) : (
+        <div> Load users here .!.</div>
+      )}
     </div>
   );
 };
