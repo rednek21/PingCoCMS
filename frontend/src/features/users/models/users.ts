@@ -10,10 +10,36 @@ export interface User {
   password?: string;
 }
 
-export const useUsers = async () => {
-  const users = await usersApi.getUsers();
+export const users = {
+  get users() {
+    return usersApi.getUsers();
+  },
 
-  return {
-    users,
-  };
+  checkIsEmailPresent: async (email: string) => {
+    const response = await usersApi.searchUsers(email);
+    if (response.length === 1) {
+      return {
+        isEmailPresent: true,
+        err: "",
+      };
+    } else {
+      return {
+        isEmailPresent: false,
+        err: "Пользователя с такой почтой нет",
+      };
+    }
+  },
+
+  resetPasswordByEmail: async (email: string) => {
+    const response = await users.checkIsEmailPresent(email);
+    if (response.isEmailPresent === false) {
+      return response.err;
+    }
+    const statusCode = await usersApi.resetUserPassword(email);
+    if (statusCode == 400) {
+      return "Ошибка при отправке сообщения на почту";
+    } else {
+      return "";
+    }
+  },
 };

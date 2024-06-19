@@ -22,6 +22,42 @@ export const usersApi = {
     });
     return result;
   },
+  searchUsers: async (search: string) => {
+    let result: User[] = await fetch(
+      `${location.protocol + "//" + location.hostname}/api/users?` +
+        new URLSearchParams({
+          search: search,
+        }),
+      {
+        method: "GET",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    ).then((response) => {
+      return response.json();
+    });
+    return result;
+  },
+  resetUserPassword: async (email: string) => {
+    let result = await fetch(
+      `${
+        location.protocol + "//" + location.hostname
+      }/auth/users/reset_password/`,
+      {
+        method: "POST",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: email }),
+      }
+    ).then((response) => {
+      return response.status;
+    });
+    return result;
+  },
   // createUser,
   // getUserById,
   // deleteUserById,

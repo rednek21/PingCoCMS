@@ -1,0 +1,1 @@
+export { ResetPassForm } from "./ResetPassForm";

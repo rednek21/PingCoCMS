@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "src/features/auth";
-import { User, useUsers } from "src/features/users";
+import { User, users } from "src/features/users";
 import { ShineButton } from "src/shared/ui/ShineButton";
 
 export const Admin = () => {
-  const [users, setUsers] = useState<User[] | null>(null);
+  const [usersArray, setUsersArray] = useState<User[] | null>(null);
 
   const navigate = useNavigate();
 
@@ -15,7 +15,7 @@ export const Admin = () => {
   }
 
   async function handleUsers() {
-    setUsers((await useUsers()).users);
+    setUsersArray(await users.users);
   }
 
   return (
@@ -23,8 +23,8 @@ export const Admin = () => {
       <p className=" m-4">You are authorized</p>
       <ShineButton text={"Logout"} handleClick={() => handleLogout()} />
       <ShineButton text={"Users"} handleClick={() => handleUsers()} />
-      {users ? (
-        users.map((user) => {
+      {usersArray ? (
+        usersArray.map((user) => {
           return (
             <div key={user.id} className=" m-4">
               <p>ID: {user.id}</p>
