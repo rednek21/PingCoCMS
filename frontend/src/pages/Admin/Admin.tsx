@@ -1,50 +1,43 @@
-import { useNavigate, useOutletContext } from "react-router-dom";
-import { ShineButton } from "src/shared/ShineButton";
-import { useTokens } from "src/entities/useTokens";
-import { adminContext } from "src/app/AuthorizationWrap";
-import { useUsers, User } from "src/entities/useUsers";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { auth } from "src/features/auth";
+import { User, users } from "src/features/users";
+import { ShineButton } from "src/shared/ui/ShineButton";
 
 export const Admin = () => {
-  const [users, setUsers] = useState([] as User[]);
+  const [usersArray, setUsersArray] = useState<User[] | null>(null);
 
-  const { getUsers } = useUsers();
-  const { removeTokens } = useTokens();
   const navigate = useNavigate();
-  const context = useOutletContext() as adminContext;
+
   function handleLogout() {
-    removeTokens();
-    context.setAuthorized(false);
+    auth.logout();
     navigate("/auth/");
   }
 
   async function handleUsers() {
-    let users = await getUsers();
-    setUsers(users);
+    setUsersArray(await users.users);
   }
 
   return (
     <div className=" m-4">
-      {context.authorized ? (
-        <>
-          <p className=" m-4">You are authorized</p>
-          <ShineButton text={"Logout"} handleClick={() => handleLogout()} />
-          <ShineButton text={"Users"} handleClick={() => handleUsers()} />
-          {users?.map((user) => {
-            return (
-              <div key={user.id} className=" m-4">
-                <p>ID: {user.id}</p>
-                <p>First Name: {user.first_name}</p>
-                <p>Last Name: {user.last_name}</p>
-                <p>Username: {user.username}</p>
-                <p>email: {user.email}</p>
-                <p>Active: {"" + user.is_active}</p>
-              </div>
-            );
-          })}
-        </>
+      <p className=" m-4">You are authorized</p>
+      <ShineButton text={"Logout"} handleClick={() => handleLogout()} />
+      <ShineButton text={"Users"} handleClick={() => handleUsers()} />
+      {usersArray ? (
+        usersArray.map((user) => {
+          return (
+            <div key={user.id} className=" m-4">
+              <p>ID: {user.id}</p>
+              <p>First Name: {user.first_name}</p>
+              <p>Last Name: {user.last_name}</p>
+              <p>Username: {user.username}</p>
+              <p>email: {user.email}</p>
+              <p>Active: {"" + user.is_active}</p>
+            </div>
+          );
+        })
       ) : (
-        <p>Loading...</p>
+        <div> Load users here .!.</div>
       )}
     </div>
   );
