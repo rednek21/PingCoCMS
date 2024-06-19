@@ -221,16 +221,24 @@ REST_FRAMEWORK = {
 # DJOSER
 
 DJOSER = {
-    'PASSWORD_RESET_CONFIRM_URL': 'password/reset/confirm/{uid}/{token}',
-    'USERNAME_RESET_CONFIRM_URL': 'username/reset/confirm/{uid}/{token}',
+    'PASSWORD_RESET_SHOW_EMAIL_NOT_FOUND': True,
+    'PASSWORD_RESET_CONFIRM_URL': '/password/reset/confirm/{user}/{uid}/{token}',
+
+    'USERNAME_RESET_CONFIRM_URL': '/username/reset/confirm/{user}/{uid}/{token}',
+
     'ACTIVATION_URL': '/activate/{user}/{uid}/{token}',
+
     'SEND_ACTIVATION_EMAIL': True,
+
     'SERIALIZERS': {
         'users': 'users.serializers.UserSerializer',
     },
     'EMAIL': {
-        'activation': 'mailings.views.UserActivationEmail'
-    }
+        'activation': 'mailings.views.UserActivationEmail',
+        'password_reset': 'mailings.views.UserPasswordResetEmail',
+        'password_changed_confirmation': 'djoser.email.PasswordChangedConfirmationEmail',
+    },
+
 }
 
 # JWT
