@@ -1,5 +1,5 @@
 # Stage 1: Build Python environment
-FROM python:3.10-alpine AS base
+FROM python:3.11-alpine AS base
 
 ENV PYTHONDONTWRITEBYTECODE 1
 
@@ -11,9 +11,9 @@ RUN pip install --no-cache-dir -r req.txt
 
 
 # Stage 2: Final image
-FROM python:3.10-alpine
+FROM python:3.11-alpine
 
-COPY --from=base /usr/local/lib/python3.10/site-packages /usr/local/lib/python3.10/site-packages
+COPY --from=base /usr/local/lib/python3.11/site-packages /usr/local/lib/python3.11/site-packages
 COPY --from=base /usr/local/bin/ /usr/local/bin/
 
 ENV PYTHONUNBUFFERED 1
