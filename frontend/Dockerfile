@@ -1,11 +1,16 @@
+# frontend/Dockerfile
 FROM node:22-alpine
 
 WORKDIR /app
 
+COPY package*.json ./
+
+RUN npm ci --silent
+
 COPY . .
 
-RUN npm install --silent
 RUN npm run build --silent
 
-CMD ["npm", "run", "preview"]
+RUN rm -rf /app/src /app/public
 
+CMD ["npm", "run", "dev"]
