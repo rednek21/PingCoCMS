@@ -13,4 +13,3 @@ RUN npm run build --silent
 
 RUN rm -rf /app/src /app/public
 
-CMD ["npm", "run", "dev"]

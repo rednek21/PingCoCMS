@@ -162,7 +162,7 @@ if DEBUG:
         BASE_DIR / 'static',
     )
 else:
-    STATIC_ROOT = "/var/www/static/"
+    STATIC_ROOT = "static"
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
