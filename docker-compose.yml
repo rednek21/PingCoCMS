@@ -5,14 +5,13 @@ services:
     build: ./frontend
     volumes:
       - static_files:/app/prod
-    depends_on:
-      - backend
     expose:
       - 3000
+    depends_on:
+      - backend
 
   backend:
     build: ./backend
-    command: gunicorn config.wsgi:application --bind 0.0.0.0:8000
     expose:
       - 8000
     volumes:
